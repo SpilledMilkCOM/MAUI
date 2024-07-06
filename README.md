@@ -1,4 +1,4 @@
-# MAUI
+﻿#  🏝️ MAUI 🏝️
 A simple MAUI application
 
 ## DON'T Add a Project Called **MauiApp**!!
