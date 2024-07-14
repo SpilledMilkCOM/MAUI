@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApplication.MainPage">
+             x:Class="MauiApplication.MainPage"
+             Loaded="ContentPage_Loaded">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Send"></ToolbarItem>
-        <ToolbarItem Text="Attach"></ToolbarItem>
-        <ToolbarItem Text="Read"></ToolbarItem>
+        <ToolbarItem Text="Send" Clicked="OnMenuSendClicked"></ToolbarItem>
+        <ToolbarItem Text="Clear" Clicked="OnMenuClearClicked"></ToolbarItem>
+        <ToolbarItem Text="Read" Clicked="OnMenuReadClicked"></ToolbarItem>
     </ContentPage.ToolbarItems>
-    
+
     <!-- How to bind viewmodel to this view? -->
 
     <VerticalStackLayout
@@ -32,17 +33,17 @@
             <Image  
                     Grid.Row="0"
                     Grid.Column="0"
-                     Source="spilled_milk_logo.png"
-                     HeightRequest="100"
-                     Aspect="AspectFit"
-                     SemanticProperties.Description="spilled milk logo" />
+                    Source="spilled_milk_logo.png"
+                    HeightRequest="100"
+                    Aspect="AspectFit"
+                    SemanticProperties.Description="spilled milk logo" />
 
             <Label
-                     Grid.Row="0"
+                    Grid.Row="0"
                     Grid.Column="1"
-                     Text="Test Application"
-                     Style="{StaticResource Headline}"
-                     SemanticProperties.HeadingLevel="Level1" />
+                    Text="Test Application"
+                    Style="{StaticResource Headline}"
+                    SemanticProperties.HeadingLevel="Level1" />
 
             <ScrollView
                 Grid.Row="1"
@@ -52,7 +53,7 @@
 
                     <Label Text="Default Post:" Margin="0,10"></Label>
 
-                    <Picker x:Name="uxDefaultMessages">
+                    <Picker x:Name="uxDefaultMessages" SelectedIndexChanged="uxDefaultMessages_SelectedIndexChanged">
                         <!-- Need to bind a list to this -->
 
                         <Picker.Items>
@@ -62,8 +63,10 @@
                         </Picker.Items>
                     </Picker>
 
-                    <Entry x:Name="uxMessage" 
-                            Margin="0,10"
+                    <Label Text="Post:" Margin="0,10"></Label>
+
+                    <Entry x:Name="uxMessage"
+                           Margin="0,10"
                            Text="{Binding Message, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}">
                     </Entry>
 
@@ -71,7 +74,12 @@
                 </StackLayout>
 
             </ScrollView>
-            
+
+            <Label x:Name="uxStatus"
+                   Grid.Row="2"
+                   Grid.ColumnSpan="2"
+                   Text="This is the status bar" ></Label>
+
         </Grid>
 
         <!--<Label
@@ -79,11 +87,11 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />-->
-       
+
 
         <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
+                x:Name="uxCounterBtn"
+                Text="Save" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
