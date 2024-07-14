@@ -1,4 +1,7 @@
-﻿namespace MauiApplication {
+﻿
+using Newtonsoft.Json;
+
+namespace MauiApplication {
 
     public partial class MainPage : ContentPage {
 
@@ -13,19 +16,33 @@
         private void ContentPage_Loaded(object sender, EventArgs e) {
             LogMessage("Main Page Loaded");
 
-            uxMessage.Text = Preferences.Default.Get(DEFAULT_MESSAGE_KEY, string.Empty);
+            var json = Preferences.Default.Get(DEFAULT_MESSAGE_KEY, string.Empty);
+
+            if (!string.IsNullOrEmpty(json)) {
+                IList<string> values = JsonConvert.DeserializeObject<List<string>>(json);
+
+                if (values != null && values.Count > 0) {
+                    uxDefaultMessages.Items.Clear();
+
+                    foreach (var value in values) {
+                        if (value != null) {
+                            uxDefaultMessages.Items.Add(value);
+                        }
+                    }
+                }
+            }
         }
 
         //----==== COMMANDS ====------------------------------------------------------------------
 
-        private void OnCounterClicked(object sender, EventArgs e) {
+        private void OnSaveClicked(object sender, EventArgs e) {
             LogMessage("Button Clicked");
 
             _count++;
 
             var plural = _count == 1 ? String.Empty : "s";
 
-            uxCounterBtn.Text = $"Saved {_count} time{plural}";
+            uxSaveBtn.Text = $"Saved {_count} time{plural}";
 
             //SemanticScreenReader.Announce(uxCounterBtn.Text);
 
@@ -60,9 +77,15 @@
 
         private void SaveMessage(string message) {
 
+            // Only add the message if it's NOT in the list.
+
+            if (!uxDefaultMessages.Items.Any(item => item == message)) {
+                uxDefaultMessages.Items.Add(message);
+            }
+
             // Note that "Preferences" is NOT SecureStorage.
 
-            Preferences.Default.Set(DEFAULT_MESSAGE_KEY, message);
+            Preferences.Default.Set(DEFAULT_MESSAGE_KEY, JsonConvert.SerializeObject(uxDefaultMessages.Items));
         }
     }
 }

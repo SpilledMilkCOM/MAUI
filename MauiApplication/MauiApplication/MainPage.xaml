@@ -90,10 +90,10 @@
 
 
         <Button
-                x:Name="uxCounterBtn"
+                x:Name="uxSaveBtn"
                 Text="Save" 
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="OnSaveClicked"
                 HorizontalOptions="Fill" />
     </VerticalStackLayout>
 
